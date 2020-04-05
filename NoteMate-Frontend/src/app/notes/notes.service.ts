@@ -1,0 +1,50 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class NotesService {
+  private apiServer = 'http://localhost:4000';
+
+  constructor(private httpClient: HttpClient) {}
+
+  // Add new note
+  public addNewNote(note): Observable<any> {
+    return this.httpClient.post<any>(this.apiServer + '/add-new-note', note)
+    .pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
+  // Get All the notes
+  public getAllNotes(): Observable<any> {
+    return this.httpClient.get<any>(this.apiServer + '/get-all-notes')
+    .pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
+ // Delete a note
+ public deleteNote(noteId) {
+   return this.httpClient.delete<any>(this.apiServer + '/delete/' + noteId)
+    .pipe(
+      catchError(this.errorHandler)
+    );
+ }
+
+  private errorHandler(error) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // Get client-side error
+      errorMessage = error.error.message;
+    } else {
+      // Get server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log(errorMessage);
+    return throwError(errorMessage);
+ }
+}

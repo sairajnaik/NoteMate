@@ -1,0 +1,10 @@
+.header {
+    padding: 5px 15px;
+    text-align: right;
+    .search-input {
+        display: inline-block;
+        input {
+            text-align: left;
+        }
+    }
+}

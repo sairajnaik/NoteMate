@@ -1,1 +1,9 @@
-<p>sidebar works!</p>
+<div class="sidebar">
+    <ul class="note-list" *ngIf="notes && notes.length">
+        <li *ngFor="let note of notes">
+            <h1 *ngIf="note.content">{{note.content}}</h1>
+            <h1 *ngIf="!note.content">Untitled</h1>
+            <small class="timestamp">{{note.date}}</small>
+        </li>
+    </ul>
+</div>

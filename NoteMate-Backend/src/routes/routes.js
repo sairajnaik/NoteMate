@@ -3,7 +3,7 @@ const router = express.Router();
 
 const notes = require('../controllers/notes.controller.js');
 
-router.get('', notes.getAllNotes);
+router.get('/get-all-notes', notes.getAllNotes);
 
 router.post('/add-new-note', notes.addNewNote);
 

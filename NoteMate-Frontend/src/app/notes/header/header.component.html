@@ -1,1 +1,7 @@
-<p>header works!</p>
+<div class="header">
+    <button class="btn btn-add" type="button" (click)="addNewNote()" id="add-button">Add</button>
+    <button class="btn btn-delete" type="button" (click)="deleteNote()" id="delete-button">delete</button>
+    <div class="search-input">
+        <input type="text" placeholder="search" [(ngModel)]="searchNote">
+    </div>
+</div>

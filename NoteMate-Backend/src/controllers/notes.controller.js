@@ -54,11 +54,10 @@ exports.addNewNote = (req, res) => {
     readFile(data => {
             let newNote = req.body;
             const generator = new IDGenerator();
-
+            console.log('req.body', req.body)
             newNote.id = generator.generate();
-            newNote.date = Date.now();
             data.notes.push(newNote);
-            writeFile(JSON.stringify(data, null, 2), () => { res.status(200).send('new note added'); });
+            writeFile(JSON.stringify(data, null, 2), () => { res.status(200).send(data); });
         },
         true);
 }
@@ -69,9 +68,8 @@ exports.deleteNote = (req, res) => {
     readFile(data => {
             const atIndex = data.notes.findIndex(x => x.id === req.params["id"]);
             if (atIndex > -1) {
-                const toBeDeleted = data.notes[atIndex];
                 data.notes.splice(atIndex, 1);
-                writeFile(JSON.stringify(data, null, 2), () => { res.status(200).send(toBeDeleted); });
+                writeFile(JSON.stringify(data, null, 2), () => { res.status(200).send(data); });
             } else {
                 res.status(404).send('Note not found');
             }
@@ -87,7 +85,7 @@ exports.updateNote = (req, res) => {
             if (atIndex > -1) {
                 data.notes[atIndex].date = Date.now();
                 data.notes[atIndex].content = req.body.content;
-                writeFile(JSON.stringify(data, null, 2), () => { res.status(200).send(data.notes[atIndex]); });
+                writeFile(JSON.stringify(data, null, 2), () => { res.status(200).send(data); });
             } else {
                 res.status(404).send('Note not found');
             }

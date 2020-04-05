@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+
+$color-alpha: #303030;
+$color-beta: #ffffff;
+.btn {
+    background: $color-beta;
+    border: 1px solid $color-alpha;
+    outline: 0;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 5px;
+}
