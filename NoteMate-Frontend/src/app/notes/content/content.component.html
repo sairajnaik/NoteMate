@@ -1,1 +1,8 @@
-<p>content works!</p>
+<form class="input-form" *ngIf="currentNote">
+    <span>{{currentNote.date | date}}</span>
+    <textarea [(ngModel)]="currentNote.content" name="content-area" (ngModelChange)="userIsTyping()"></textarea>
+</form>
+
+<div class="no-content" *ngIf="!currentNote">
+    Click + button to add a new note or, Select from the list of notes.
+</div>

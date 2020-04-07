@@ -21,20 +21,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
     });
   }
 
-  public addNewNote() {
-    const newNote = { date: Date.now(), content: '' };
-    this.notesService.addNewNote(newNote).pipe(takeUntil(this.ngUnsubscribe)).subscribe( result => {
-      this.notes = result.notes;
-    });
-  }
-
-  public deleteNote() {
-    if (this.activeNote && this.activeNote.length) {
-      this.notesService.deleteNote(this.activeNote.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe( result => {
-        this.activeNote = null;
-        this.notes = result.notes;
-      });
-    }
+  public openNote(note) {
+    this.activeNote = note;
+    this.notesService.setActiveNote(this.activeNote);
   }
 
   ngOnInit(): void {

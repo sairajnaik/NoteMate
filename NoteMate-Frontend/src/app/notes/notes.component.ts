@@ -1,22 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NotesService } from './notes.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.scss']
 })
-export class NotesComponent implements OnInit, OnDestroy {
-  private ngUnsubscribe = new Subject();
+export class NotesComponent implements OnInit {
 
-  constructor(private notesService: NotesService) { }
+  constructor() { }
 
   ngOnInit(): void { }
-
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-
 }

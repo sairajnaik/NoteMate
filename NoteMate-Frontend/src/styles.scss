@@ -2,6 +2,13 @@
 
 $color-alpha: #303030;
 $color-beta: #ffffff;
+body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
 .btn {
     background: $color-beta;
     border: 1px solid $color-alpha;
@@ -9,4 +16,41 @@ $color-beta: #ffffff;
     cursor: pointer;
     border-radius: 5px;
     padding: 5px;
+}
+
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.col-sm {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    @media only screen and (min-width: 576px) {
+        -ms-flex-preferred-size: 0;
+        flex-basis: 0;
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        max-width: 100%;
+        &.sidebar {
+            max-width: 18%;
+        }
+    }
+}
+
+main {
+    height: calc(100% - 60px);
+}
+
+.content {
+    height: 100%;
 }

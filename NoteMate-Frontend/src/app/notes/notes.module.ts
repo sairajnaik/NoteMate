@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotesRoutingModule } from './notes-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { NotesComponent } from './notes.component';
@@ -16,6 +16,7 @@ import { ContentComponent } from './content/content.component';
     CommonModule,
     NotesRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule
   ]
 })

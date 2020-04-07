@@ -1,23 +1,47 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NotesService } from '../notes.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
-  public searchNote: '';
-  constructor() { }
+export class HeaderComponent implements OnInit, OnDestroy {
+  public searchNote: string;
+  private ngUnsubscribe = new Subject();
+  public activeNote: any;
+  constructor(private notesService: NotesService) { }
 
   public addNewNote() {
-    console.log('Add new note');
+    const newNote = { date: Date.now(), content: '' };
+    this.notesService.addNewNote(newNote).pipe(takeUntil(this.ngUnsubscribe)).subscribe( result => {});
   }
 
   public deleteNote() {
-    console.log('delete note');
+    if (this.activeNote && this.activeNote.id) {
+      this.notesService.deleteNote(this.activeNote.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe( result => {
+        this.activeNote = {};
+      });
+    }
+  }
+
+  // Get the selected note data.
+   private getActiveNote() {
+    this.notesService.activeNote
+    .pipe(takeUntil(this.ngUnsubscribe))
+    .subscribe(note => {
+      this.activeNote = note;
+    });
   }
 
   ngOnInit(): void {
+    this.getActiveNote();
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
 }
