@@ -8,9 +8,15 @@ import { catchError } from 'rxjs/operators';
 })
 export class NotesService {
 
-  private apiServer = 'http://localhost:4000';
+  private apiServer         = 'http://localhost:4000';
   private observeActiveNote = new BehaviorSubject<any>('');
-  public activeNote = this.observeActiveNote.asObservable();
+  public  activeNote        = this.observeActiveNote.asObservable();
+
+  private observeNewNote    = new BehaviorSubject<any>(null);
+  public  newNote           = this.observeNewNote.asObservable();
+
+  private observeDelete     = new BehaviorSubject<any>(null);
+  public  deletedNote       = this.observeDelete.asObservable();
 
   constructor(private httpClient: HttpClient) {}
 
@@ -31,20 +37,22 @@ export class NotesService {
   }
 
  // Delete a note
- public deleteNote(noteId) {
+ public deleteNote(noteId: string) {
+   console.log('service', noteId);
    return this.httpClient.delete<any>(this.apiServer + '/delete/' + noteId)
     .pipe(
       catchError(this.errorHandler)
     );
  }
 // Update Note
-public updateNote(note) {
+ public updateNote(note) {
   return this.httpClient.put<any>(this.apiServer + '/update', note)
     .pipe(
       catchError(this.errorHandler)
     );
-}
-  private errorHandler(error) {
+ }
+ // Error handler
+ private errorHandler(error) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       // Get client-side error
@@ -62,5 +70,12 @@ public updateNote(note) {
   this.observeActiveNote.next(note);
  }
 
+ public setNewNote(note: any) {
+  this.observeNewNote.next(note);
+ }
+
+ public setDeletedNote(noteId) {
+  this.observeDelete.next(noteId);
+ }
 
 }

@@ -8,20 +8,28 @@ import { Subject } from 'rxjs';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  public searchNote: string;
+
+  public  searchNote: string;
   private ngUnsubscribe = new Subject();
-  public activeNote: any;
+  public  activeNote: any;
+
   constructor(private notesService: NotesService) { }
 
   public addNewNote() {
     const newNote = { date: Date.now(), content: '' };
-    this.notesService.addNewNote(newNote).pipe(takeUntil(this.ngUnsubscribe)).subscribe( result => {});
+    this.notesService.addNewNote(newNote).pipe(takeUntil(this.ngUnsubscribe)).subscribe( result => {
+      this.notesService.setNewNote(result);
+    });
   }
 
   public deleteNote() {
     if (this.activeNote && this.activeNote.id) {
       this.notesService.deleteNote(this.activeNote.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe( result => {
-        this.activeNote = {};
+        if (result) {
+          const noteId: string = result.toString();
+          console.log('received noteID', noteId);
+          this.notesService.setDeletedNote(noteId);
+        }
       });
     }
   }

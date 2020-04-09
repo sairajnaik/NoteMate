@@ -9,19 +9,20 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./content.component.scss']
 })
 export class ContentComponent implements OnInit, OnDestroy {
-  private ngUnsubscribe = new Subject();
-  public currentNote: any;
-  private modelChanged = new Subject<string>();
+  private ngUnsubscribe  = new Subject();
+  public  currentNote: any;
+  private modelChanged   = new Subject<string>();
 
   constructor(private notesService: NotesService) {
-
+    // Listen to content change observable, call update function with a delay
     this.modelChanged.pipe(
       debounceTime(300),
       takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.updateNote();
     });
-   }
+
+  }
 
  // Get the selected note data.
   private getActiveNote() {
@@ -32,12 +33,14 @@ export class ContentComponent implements OnInit, OnDestroy {
     });
   }
 
+  // service to auto save the content on update.
   private updateNote() {
     this.notesService.updateNote(this.currentNote).pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
       console.log(res);
     });
   }
 
+  // On ngModalChange set new date, set observable
   public userIsTyping() {
     this.currentNote.date = new Date();
     this.modelChanged.next();

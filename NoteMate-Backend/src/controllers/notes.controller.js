@@ -55,7 +55,7 @@ exports.addNewNote = (req, res) => {
             let newNote = req.body;
             const generator = new IDGenerator();
             newNote.id = generator.generate();
-            data.notes.push(newNote);
+            data.notes.splice(0, 0, newNote);
             writeFile(JSON.stringify(data, null, 2), () => { res.status(200).send(newNote); });
         },
         true);
@@ -80,7 +80,6 @@ exports.deleteNote = (req, res) => {
 // update a note
 exports.updateNote = (req, res) => {
     readFile(data => {
-            console.log('*********************', req)
             const atIndex = data.notes.findIndex(x => x.id === req.body.id);
             if (atIndex > -1) {
                 data.notes[atIndex].content = req.body.content;
